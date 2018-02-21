@@ -4,8 +4,8 @@
     v-for="(post, title) in posts"
     v-bind:key="post.id">
       <app-post :link="post.link">
-      <h3 slot="title">{{ post.title }}</h3>
-      <span slot="content">{{ post.content }}</span>
+        <h3 slot="title">{{ post.title }}</h3>
+        <span slot="content">{{ post.content }}</span>
       </app-post>
     </div>
   </div>
@@ -49,6 +49,7 @@
     },
     created () {
       this.loadPosts()
+      console.log(this.$route.query.page)
     }
   }
 </script>
