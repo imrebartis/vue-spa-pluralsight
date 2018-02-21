@@ -22,7 +22,7 @@ const router = new VueRouter({
   // },
   routes: [
     { path: '/login', component: Login },
-    { path: '/category/front-end', component: Category },
+    { path: '/category/:id', component: Category },
     { path: '/', redirect: '/category/front-end' }
   ]
 })
