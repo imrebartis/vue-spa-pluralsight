@@ -64,6 +64,18 @@
         profile: {}
       }
     },
+    watch: {
+      isAuthenticated: function (val) {
+        if (val) {
+          appService.getProfile()
+            .then(profile => {
+              this.profile = profile
+            })
+        } else {
+          this.profile = {}
+        }
+      }
+    },
     methods: {
       login () {
         appService.login({username: this.username, password: this.password})
