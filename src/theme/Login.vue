@@ -1,5 +1,14 @@
 <template>
   <div class="content">
+  <div v-if="isAuthenticated">
+    Hello authenticated user!
+    <p>Name: {{profile.firstName}}</p>
+    <p>Favorite Sandwich: {{profile.favoriteSandwich}}</p>
+    <button v-on:click="logout()" class="button is-primary">
+      Logout
+    </button>
+  </div>
+  <div v-else>
     <h2>Login</h2>
     <div class="field is-horizontal">
       <div class="field-label is-normal">
@@ -42,6 +51,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
   import appService from '../app.service.js'
@@ -49,7 +59,9 @@
     data () {
       return {
         username: '',
-        password: ''
+        password: '',
+        isAuthenticated: false,
+        profile: {}
       }
     },
     methods: {
@@ -59,8 +71,23 @@
           .then((data) => {
             window.localStorage.setItem('token', data.token)
             window.localStorage.setItem('tokenExpiration', data.expiration)
+            this.isAuthenticated = true
+            this.username = ''
+            this.password = ''
           })
           .catch(() => window.alert('Could not login!'))
+      },
+      logout () {
+        window.localStorage.setItem('token', null)
+        window.localStorage.setItem('tokenExpiration', null)
+        this.isAuthenticated = false
+      }
+    },
+    created () {
+      let expiration = window.localStorage.getItem('tokenExpiration')
+      var unixTimestamp = new Date().getTime() / 1000
+      if (expiration !== null && parseInt(expiration) - unixTimestamp > 0) {
+        this.isAuthenticated = true
       }
     }
   }
