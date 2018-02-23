@@ -17,4 +17,16 @@ describe('Post.vue', () => {
     expect(comp.$el.querySelector('.card-footer-item').getAttribute('href'))
       .to.equal('http://www.pluralsight.com')
   })
+  it('should update element\'s href when property link changes', (done) => {
+    const comp = createComponent()
+    expect(comp.$el.querySelector('.card-footer-item').getAttribute('href'))
+      .to.equal('http://www.pluralsight.com')
+
+    comp.link = 'http://fullstackweekly.com'
+    Vue.nextTick(() => {
+      expect(comp.$el.querySelector('.card-footer-item').getAttribute('href'))
+        .to.equal('http://fullstackweekly.com')
+      done()
+    })
+  })
 })
